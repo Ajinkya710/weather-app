@@ -3,8 +3,14 @@ import WeatherCard from "./WeatherCard"
 
 const FetchWeather = (props) => {
   const [receivedData, setReceivedData] = useState([]);
+  const [lastUpdatedTime, setLastUpdatedTime] = useState(null);
+  
   console.log(receivedData.length);
   useEffect(() => {
+
+    const currentTime = new Date().toLocaleTimeString('en-IN');
+    setLastUpdatedTime(currentTime);
+
     if (props.lat !== null && props.lng !== null) {
       const fetchData = async () => {
         fetch(
@@ -23,9 +29,11 @@ const FetchWeather = (props) => {
   return (
     <div>
       {receivedData.length !== 0 ? (
-        <WeatherCard data={receivedData}/>
+        <WeatherCard data={receivedData} lastUpdatedTime={lastUpdatedTime}/>
       ) : (
-        <div> </div>
+        <div> 
+          Fetching weather...
+        </div>
       )}
     </div>
   );
